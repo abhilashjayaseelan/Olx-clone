@@ -162,3 +162,18 @@
     display: none;
   }
 }
+
+.login-button {
+  cursor: pointer;
+  color: black;
+}
+
+
+.sell-button {
+  cursor: pointer;
+  color: black;
+}
+
+.logout-button {
+  cursor: pointer;
+}

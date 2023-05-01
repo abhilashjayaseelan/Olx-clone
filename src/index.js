@@ -1,15 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { RouterProvider } from "react-router-dom";
 import appRouter from "./App";
-import { FirebaseContext } from './store/FirebaseContext'
+import { RouterProvider } from "react-router-dom";
+import { FirebaseContext } from "./store/Context";
+import Context from "./store/Context";
 import firebase from "./firebase/config";
-
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <FirebaseContext.Provider value={{ firebase }}>
-    <RouterProvider router={appRouter} />
+    <Context>
+      <RouterProvider router={appRouter} />
+    </Context>
   </FirebaseContext.Provider>
 );

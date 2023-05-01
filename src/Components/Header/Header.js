@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useContext } from "react";
+import "./Header.css";
+import OlxLogo from "../../assets/OlxLogo";
+import Search from "../../assets/Search";
+import Arrow from "../../assets/Arrow";
+import SellButton from "../../assets/SellButton";
+import SellButtonPlus from "../../assets/SellButtonPlus";
+import { AuthContext, FirebaseContext } from "../../store/Context";
+import { useNavigate, Link } from "react-router-dom";
 
-import './Header.css';
-import OlxLogo from '../../assets/OlxLogo';
-import Search from '../../assets/Search';
-import Arrow from '../../assets/Arrow';
-import SellButton from '../../assets/SellButton';
-import SellButtonPlus from '../../assets/SellButtonPlus';
 function Header() {
+  const { user } = useContext(AuthContext);
+  const { firebase } = useContext(FirebaseContext);
+  const navigate = useNavigate();
+
   return (
     <div className="headerParentDiv">
       <div className="headerChildDiv">
         <div className="brandName">
-          <OlxLogo></OlxLogo>
+          <Link to={"/"}>
+            <OlxLogo />
+          </Link>
         </div>
         <div className="placeSearch">
           <Search></Search>
@@ -34,16 +42,35 @@ function Header() {
           <Arrow></Arrow>
         </div>
         <div className="loginPage">
-          <span>Login</span>
+          {user ? (
+            <span>{`Hi  ${user.displayName}`}</span>
+          ) : (
+            <Link to={"/login"}>
+              <span className="login-button">Login</span>
+            </Link>
+          )}
           <hr />
         </div>
 
+        {user && (
+          <span
+            className="logout-button"
+            onClick={() => {
+              firebase.auth().signOut();
+              navigate("login");
+            }}
+          >
+            Logout
+          </span>
+        )}
         <div className="sellMenu">
+          <Link to={"/Create"}>
           <SellButton></SellButton>
-          <div className="sellMenuContent">
-            <SellButtonPlus></SellButtonPlus>
-            <span>SELL</span>
-          </div>
+            <div className="sellMenuContent">
+              <SellButtonPlus></SellButtonPlus>
+              <span className="sell-button">SELL</span>
+            </div>
+          </Link>
         </div>
       </div>
     </div>
